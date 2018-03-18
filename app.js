@@ -29,6 +29,9 @@ var user_panel = require('./routes/user');
 app.post('/user/signup', user_panel.signup);
 app.post('/user/login', user_panel.login);
 app.post('/user/post', user_panel.post);
+
+app.post('/user/get_post_list', user_panel.get_post_list);
+
 app.post('/user/viewUser', user_panel.viewUser);
 app.listen(port, function(){
 	console.log("Server is running on port "+port);

@@ -38,3 +38,10 @@ exports.nodatafound = function(res) {
 	};
 	res.status(constants.responseFlags.NO_DATA_FOUND).json(response);
 }
+exports.invalidAccessToken = function(res) {
+	var response = {
+		response : {},
+		message: constants.responseMessages.INVALID_ACCESS_TOKEN
+	};
+	res.status(constants.responseFlags.INVALID_ACCESS_TOKEN).json(response);
+}

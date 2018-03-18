@@ -184,8 +184,8 @@
 
 				request.fail(function(error){
 					var err = error.responseJSON.message;
-					// $('.errorContainerWrap').show();
-					// $('.errorContainerWrap').html(err);
+					$('.errorContainerWrap').show();
+					$('.errorContainerWrap').html(err);
 				});
 
 
