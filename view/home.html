@@ -1,210 +1,217 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Test</title>
+    <title>Test</title>
 <link rel="stylesheet" type="text/css" href="assets/css/bootstrap.min.css">
-	<link rel="stylesheet" type="text/css" href="assets/css/custom.css">
+    <link rel="stylesheet" type="text/css" href="assets/css/custom.css">
 </head>
 <body>
-	<nav class="navbar navbar-inverse">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<a class="navbar-brand" href="#">WebSiteName</a>
-			</div>
-			<div class="clearfix">
-				<div class="pull-left">
-					<ul class="nav navbar-nav">
-						<li class="active"><a href="#">Home</a></li>
-						<li><a href="#">Page 1</a></li>
-						<li><a href="#">Page 2</a></li>
-						<li><a href="#">Page 3</a></li>
-					</ul>
-				</div>
-				<div class="pull-right">
-					<ul class="nav navbar-nav">
-						<li><a class="btn btn-info pull-right Logout" >Logout</a></li>
-					</ul>
-				</div>
-			</div>
-		</div>
-	</nav>
-	<div class="container">
-		<div class="row">
-			<div class="col-md-3">
-				<div class="card">
-					 <nav class="sidebar">
-						<div class="sidebar-sticky">
-							<ul class="nav flex-column">
-								<li class="nav-item">
-								<a class="nav-link active" href="#">HOME</a>
-							</li>
-							<li class="nav-item">
-								<a class="nav-link" href="#">profile</a>
-							</li>
-							</ul>
-						</div>
-					</nav>
-				</div>
-			</div>
-			<div class="col-md-6">
-				<div class="card">
-					<div class="postCreateWrap">
-						<textarea class="form-control postWriteField" placeholder="Write here..."></textarea>
-						<div class="clearfix">
-							<button class="btn btn-info pull-right poststatus" style="margin-top: 5px;">Post</button>
-							<input type="submit" class="btn btn-info viewBtn" value="View Comments">
-						</div>
-					</div>
-					<div class="postListWrap">
-						<!-- For post list -->
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3">
-				<div class="card">
-					Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
-				</div>
-			</div>
-		</div>
-	</div>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="#">WebSiteName</a>
+            </div>
+            <div class="clearfix">
+                <div class="pull-left">
+                    <ul class="nav navbar-nav">
+                        <li class="active"><a href="#">Home</a></li>
+                        <li><a href="#">Page 1</a></li>
+                        <li><a href="#">Page 2</a></li>
+                        <li><a href="#">Page 3</a></li>
+                    </ul>
+                </div>
+                <div class="pull-right">
+                    <ul class="nav navbar-nav">
+                        <li><a class="btn btn-info pull-right Logout" >Logout</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card">
+                     <nav class="sidebar">
+                        <div class="sidebar-sticky">
+                            <ul class="nav flex-column">
+                                <li class="nav-item">
+                                <a class="nav-link active" href="#">HOME</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="#">profile</a>
+                            </li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="postCreateWrap">
+                        <textarea class="form-control postWriteField" placeholder="Write here..."></textarea>
+                        <div class="clearfix">
+                            <button class="btn btn-info pull-right poststatus" style="margin-top: 5px;">Post</button>
+                            <input type="submit" class="btn btn-info viewBtn" value="View Comments">
+                        </div>
+                    </div>
+                    <div class="postListWrap">
+                        <!-- For post list -->
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="card">
+                    Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.
+                </div>
+            </div>
+        </div>
+    </div>
 
-	<!-- jquery code-->
-	<script type="text/javascript" src="assets/js/jquery.min.js"></script>
-	<script type="text/javascript">
-
-		$(window).on('load', function(){
-			var access_token = localStorage.getItem("access_token");
-
-			var request = $.ajax({
-			 	"url": "http://localhost:3008/user/get_post_list",
-			 	"type": "post",
-			 	"data": {
-			 		"access_token" : access_token
-			 	}
-			});
-			request.success(function(data){
-			 	var postListData = data.response;
-			 	console.log(postListData);
-			 	$('.postListWrap').empty();
-			 	for (var i = 0; i < postListData.length; i++) {
-
-			 		$('.postListWrap').append('<div class="postList">\
-							<div class="postCreatorDetails clearfix">\
-								<img src="http://via.placeholder.com/350x150" class="img-circle" width="40px" height="40px">\
-								<h3>'+postListData[i]["name"]+'</h3>\
-							</div>\
-							<div class="postListContentArea">\
-								<h4>'+postListData[i]["post_data"]+'</h4>\
-								<div style="margin: 5px 0px;"><a href="#" style="margin-right: 5px;">like</a><a href="#">comment</a></div>\
-								<div>\
-									<input type="text" class="form-control" name="" style="margin-bottom: 10px;">\
-									<div class="postCreatorDetails clearfix">\
-										<img src="http://via.placeholder.com/350x150" class="img-circle" width="40px" height="40px">\
-										<h3>Name</h3>\
-										<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s</p>\
-									</div>\
-									<div class="postCreatorDetails clearfix">\
-										<img src="http://via.placeholder.com/350x150" class="img-circle" width="40px" height="40px">\
-										<h3>Name</h3>\
-										<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s</p>\
-									</div>\
-								</div>\
-							</div>\
-						</div>');
-			 	}
-			});
-			request.fail(function(error){
-			 	
-			});
-		});
-
-		$(document).ready(function(){
-			var access_token = localStorage.getItem("access_token");
-			console.log(access_token);
-			$('.poststatus').click(function(event){
-				event.preventDefault();
-				 var post = $('.postWriteField').val();
-				 // var userData = localStorage.getItem("user");
-				 // var userData = JSON.parse(userData);
-				 // var access_token = userData.access_token;
-				 var request = $.ajax({
-				 	"url": "http://localhost:3008/user/post",
-				 	"type": "post",
-				 	"data": {
-				 		"post" : post,
-				 		"access_token" : access_token
-				 		}
-				});
-				request.success(function(data){
-				 	var postListData = data.response;
-				 	console.log(postListData);
-
-				 	$('.postListWrap').prepend('<div class="postList">\
-							<div class="postCreatorDetails clearfix">\
-								<img src="http://via.placeholder.com/350x150" class="img-circle" width="40px" height="40px">\
-								<h3>'+postListData["name"]+'</h3>\
-							</div>\
-							<div class="postListContentArea">\
-								<h4>'+postListData["post_data"]+'</h4>\
-								<div style="margin: 5px 0px;"><a href="#" style="margin-right: 5px;">like</a><a href="#">comment</a></div>\
-								<div>\
-									<input type="text" class="form-control" name="" style="margin-bottom: 10px;">\
-									<div class="postCreatorDetails clearfix">\
-										<img src="http://via.placeholder.com/350x150" class="img-circle" width="40px" height="40px">\
-										<h3>Name</h3>\
-										<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s</p>\
-									</div>\
-									<div class="postCreatorDetails clearfix">\
-										<img src="http://via.placeholder.com/350x150" class="img-circle" width="40px" height="40px">\
-										<h3>Name</h3>\
-										<p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s</p>\
-									</div>\
-								</div>\
-							</div>\
-						</div>');
-				});
-				request.fail(function(error){
-				 	var err = error.responseJSON.message;
-				 	$('.errorContainerWrap').show();
-				 	$('.errorContainerWrap').html(err);
-				});
-			});
-			$('.Logout').click(function(event){
-				event.preventDefault();
-				localStorage.removeItem("access_token");
-				localStorage.removeItem("user");
-				window.location.replace('index.html');
-
-			})
-			//  show posts
-			$('.viewBtn').click(function(e) {
-				console.log(access_token);
-				e.preventDefault();
-				$('.userListWrap').toggle();
-				var request = $.ajax({
-					"url": "http://localhost:3008/user/viewUser",
-					"type": "POST",
-					"data": {
-						"access_token" : access_token
-					}
-				});
-				
-				request.success(function(data){
-					console.log(data);
-					$('.userList').empty();
-					for (var i = 0; i < data.length; i++) {
-						$('.userList').append('<tr>\
-							<td class="text-center">'+data[i]["user_id"]+'</td>\
-							<td class="text-center">'+data[i]["name"]+'</td>\
-						</tr>');
-					}
-				});
-				request.fail(function(error){
-					console.log("error");
-				});
-			});
-		});
-
-	</script>
+    <!-- jquery code-->
+    <script type="text/javascript" src="assets/js/jquery.min.js"></script>
+    <script type="text/javascript">
+        $(window).on('load', function(){
+            var access_token = localStorage.getItem("access_token");
+            var request = $.ajax({
+                "url": "http://localhost:3008/user/get_post_list",
+                "type": "post",
+                "data": {
+                    "access_token" : access_token
+                }
+            });
+            request.success(function(data){
+                var postListData = data.response;
+                console.log(postListData);
+                $('.postListWrap').empty();
+                for (var i = 0; i < postListData.length; i++) {
+                    $('.postListWrap').append('<div class="postList" data-postID="'+postListData[i]["post_id"]+'">\
+                            <div class="postCreatorDetails clearfix">\
+                                <img src="http://via.placeholder.com/350x150" class="img-circle" width="40px" height="40px">\
+                                <h3>'+postListData[i]["name"]+'</h3>\
+                            </div>\
+                            <div class="postListContentArea">\
+                                <h4>'+postListData[i]["post_data"]+'</h4>\
+                                <div style="margin: 5px 0px;"><button class="btn btn-info pull-left like" style="margin-top: 5px;">Like</button>\
+                                <button class="btn btn-info pull-right comment" style="margin-top: 5px;">Comments</button>\
+                                </div>\
+                                <div>\
+                                    <input type="text" class="form-control" name="" style="margin-bottom: 10px;">\
+                                    <div class="postCreatorDetails clearfix">\
+                                        <img src="http://via.placeholder.com/350x150" class="img-circle" width="40px" height="40px">\
+                                        <h3>Name</h3>\
+                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s</p>\
+                                    </div>\
+                                    <div class="postCreatorDetails clearfix">\
+                                        <img src="http://via.placeholder.com/350x150" class="img-circle" width="40px" height="40px">\
+                                        <h3>Name</h3>\
+                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s</p>\
+                                    </div>\
+                                </div>\
+                            </div>\
+                        </div>');
+                }
+            });
+            request.fail(function(error){
+                
+            });
+        });
+        $(document).ready(function(){
+            var access_token = localStorage.getItem("access_token");
+            console.log(access_token);
+            $('.poststatus').click(function(event){
+                event.preventDefault();
+                 var post = $('.postWriteField').val();
+                 // var userData = localStorage.getItem("user");
+                 // var userData = JSON.parse(userData);
+                 // var access_token = userData.access_token;
+                 var request = $.ajax({
+                    "url": "http://localhost:3008/user/post",
+                    "type": "post",
+                    "data": {
+                        "post" : post,
+                        "access_token" : access_token
+                        }
+                });
+                request.success(function(data){
+                    var postListData = data.response;
+                    console.log(postListData);
+                    $('.postListWrap').prepend('<div class="postList">\
+                            <div class="postCreatorDetails clearfix">\
+                                <img src="http://via.placeholder.com/350x150" class="img-circle" width="40px" height="40px">\
+                                <h3>'+postListData["name"]+'</h3>\
+                            </div>\
+                            <div class="postListContentArea">\
+                                <h4>'+postListData["post_data"]+'</h4>\
+                                <div style="margin: 5px 0px;"><a href="#" style="margin-right: 5px;">like</a><a href="#">comment</a></div>\
+                                <div>\
+                                    <input type="text" class="form-control" name="" style="margin-bottom: 10px;">\
+                                    <div class="postCreatorDetails clearfix">\
+                                        <img src="http://via.placeholder.com/350x150" class="img-circle" width="40px" height="40px">\
+                                        <h3>Name</h3>\
+                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s</p>\
+                                    </div>\
+                                    <div class="postCreatorDetails clearfix">\
+                                        <img src="http://via.placeholder.com/350x150" class="img-circle" width="40px" height="40px">\
+                                        <h3>Name</h3>\
+                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s</p>\
+                                    </div>\
+                                </div>\
+                            </div>\
+                        </div>');
+                });
+                request.fail(function(error){
+                    var err = error.responseJSON.message;
+                    $('.errorContainerWrap').show();
+                    $('.errorContainerWrap').html(err);
+                });
+            });
+            $('.Logout').click(function(event){
+                event.preventDefault();
+                localStorage.removeItem("access_token");
+                localStorage.removeItem("user");
+                window.location.replace('index.html');
+            })
+            //  show posts
+            $('.viewBtn').click(function(e) {
+                console.log(access_token);
+                e.preventDefault();
+                $('.userListWrap').toggle();
+                var request = $.ajax({
+                    "url": "http://localhost:3008/user/viewUser",
+                    "type": "POST",
+                    "data": {
+                        "access_token" : access_token
+                    }
+                });
+                
+                request.success(function(data){
+                    console.log(data);
+                    $('.userList').empty();
+                    for (var i = 0; i < data.length; i++) {
+                        $('.userList').append('<tr>\
+                            <td class="text-center">'+data[i]["user_id"]+'</td>\
+                            <td class="text-center">'+data[i]["name"]+'</td>\
+                        </tr>');
+                    }
+                });
+                request.fail(function(error){
+                    console.log("error");
+                });
+            });
+            $(document).on('click', '.like', function(event){
+                event.preventDefault();
+                var post_id = $(this).parents('.postList').attr("data-postID");
+                console.log(post_id);
+                var request = $.ajax({
+                    "url" : "http://localhost:3008/user/like",
+                    "type" : "post" , 
+                    "data" : {
+                        "post_id" : post_id
+                    }
+                })
+            });
+        });
+    </script>
 </body>
 </html>

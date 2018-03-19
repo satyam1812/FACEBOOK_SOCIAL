@@ -204,6 +204,7 @@ exports.get_post_list = function(req, res) {
     var access_token = req.body.access_token;
     var manValue = [access_token];
     var checkBlank = comFunc.checkBlank(manValue);
+    let arr = [];
     if (checkBlank == 1) {
         responses.parameterMissing(res);
     } else {
@@ -216,7 +217,7 @@ exports.get_post_list = function(req, res) {
                     responses.invalidAccessToken(res);
                 } else {
                     let user_id = userresult[0].user_id;
-                    var sql = "SELECT * FROM `post`";
+                    var sql = "SELECT * FROM `post` ORDER BY `rowid` DESC";
                     connection.query(sql, [user_id], function(err, postList) {
                         if (err) {
                             responses.sendError(res);
@@ -249,4 +250,30 @@ exports.get_post_list = function(req, res) {
             }
         });
     }
+}
+
+// for like button
+exports.like = function(req,res) {
+	var post_id  = req.body.post_id;
+	console.log(post_id);
+	var like_id = md5(new Date());
+	var sql = "select * from `post` WHERE `post_id` = ?";
+	connection.query(sql,[post_id],function(err,result){
+		if(err){
+			responses.sendError(res);
+		} else {
+			console.log(result[0]);
+			var user_id = result[0].user_id;
+			console.log(user_id);
+			var sql = "insert into `like_tbl` (`like_id`,`user_id`,`post_id`,`total_likes`) VALUES (?,?,?,?)";
+			var values = [like_id,user_id,post_id,1];
+			connection.query(sql,values,function(err,result){
+				if (err) {
+					responses.sendError(res)
+				} else {
+					console.log("success");
+				}
+			})
+		}
+	})
 }

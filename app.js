@@ -31,6 +31,7 @@ app.post('/user/login', user_panel.login);
 app.post('/user/post', user_panel.post);
 
 app.post('/user/get_post_list', user_panel.get_post_list);
+app.post('/user/like', user_panel.like);
 
 app.post('/user/viewUser', user_panel.viewUser);
 app.listen(port, function(){
