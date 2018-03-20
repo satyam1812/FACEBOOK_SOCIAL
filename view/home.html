@@ -199,6 +199,8 @@
                     console.log("error");
                 });
             });
+             var access_token = localStorage.getItem("access_token");
+             console.log(access_token);
             $(document).on('click', '.like', function(event){
                 event.preventDefault();
                 var post_id = $(this).parents('.postList').attr("data-postID");
@@ -207,6 +209,7 @@
                     "url" : "http://localhost:3008/user/like",
                     "type" : "post" , 
                     "data" : {
+                        "access_token" : access_token, 
                         "post_id" : post_id
                     }
                 })

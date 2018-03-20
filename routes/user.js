@@ -9,7 +9,6 @@ var arr = [];
 exports.login = function(req,res) {
 	var email = req.body.email;
 	var	password = req.body.password;
-	
 	var sql = "SELECT * FROM `user1` WHERE `email` = ? AND `password`=?";
 	var password = md5(password);
 	var values = [email,password];
@@ -254,26 +253,47 @@ exports.get_post_list = function(req, res) {
 
 // for like button
 exports.like = function(req,res) {
-	var post_id  = req.body.post_id;
-	console.log(post_id);
-	var like_id = md5(new Date());
-	var sql = "select * from `post` WHERE `post_id` = ?";
-	connection.query(sql,[post_id],function(err,result){
-		if(err){
-			responses.sendError(res);
-		} else {
-			console.log(result[0]);
-			var user_id = result[0].user_id;
-			console.log(user_id);
-			var sql = "insert into `like_tbl` (`like_id`,`user_id`,`post_id`,`total_likes`) VALUES (?,?,?,?)";
-			var values = [like_id,user_id,post_id,1];
-			connection.query(sql,values,function(err,result){
-				if (err) {
-					responses.sendError(res)
-				} else {
-					console.log("success");
-				}
-			})
-		}
-	})
+var access_token = req.body.access_token;
+var post_id = req.body.post_id;
+console.log(access_token + "         "+post_id);
+var like_id = md5(new Date());
+var sql = "select * from  `user1` WHERE `access_token` = ?"
+connection.query(sql,[access_token],function(err,result){
+	if(err) {
+		responses.sendError(res);
+	} else {
+		var user_id = result[0].user_id;
+		console.log(user_id);
+		var sql = "select * FROM `like_tbl` where `user_id` = ? and `post_id` = ?";
+		var values = [user_id,post_id];
+		connection.query(sql,values,function(err,result){
+			if(err) {
+				responses.sendError(res)
+			} else if (result.length>0) {
+				var sql ="delete FROM `like_tbl` where `user_id` = ? AND `post_id` =?";
+				var values = [user_id,post_id];
+				connection.query(sql,values,function(err,result){
+					if(err) {
+						responses.sendError(res);
+					} else {
+						console.log("Post Unliked and data deleted");
+					}
+				})
+			} else {
+				var sql = "insert into `like_tbl` (`user_id`,`post_id`,`like_id`,`total_likes`) values (?,?,?,?)"
+				var values = [user_id,post_id,like_id,1];
+				connection.query(sql,values,function(err,result){
+					if(err) {
+						responses.sendError(res);
+					} else {
+						console.log("post liked and data inserted");
+					}
+				})
+			}
+		})
+
+
+	}
+})
+
 }
