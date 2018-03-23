@@ -52,7 +52,6 @@
                         <textarea class="form-control postWriteField" placeholder="Write here..."></textarea>
                         <div class="clearfix">
                             <button class="btn btn-info pull-right poststatus" style="margin-top: 5px;">Post</button>
-                            <input type="submit" class="btn btn-info viewBtn" value="View Comments">
                         </div>
                     </div>
                     <div class="postListWrap">
@@ -92,16 +91,15 @@
                             </div>\
                             <div class="postListContentArea">\
                                 <h4>'+postListData[i]["post_data"]+'</h4>\
-                                <div style="margin: 5px 0px;"><button class="btn btn-info pull-left like" style="margin-top: 5px;">Like</button>\
-                                <button class="btn btn-info pull-right comment" style="margin-top: 5px;">Comments</button>\
+                                <div style="margin: 5px 0px;">\
+                                    <span class"likePostWrap">\
+                                        <button class="btn btn-info pull-left like" style="margin-top: 5px;">Like</button>\
+                                        <button class="btn btn-info pull-left unlike" style="margin-top: 5px;display:none">Unlike</button>\
+                                    </span>\
+                                    <button class="btn btn-info post_comment" style="margin-top: 5px;margin-left:5px;">Comments</button>\
                                 </div>\
                                 <div>\
-                                    <input type="text" class="form-control" name="" style="margin-bottom: 10px;">\
-                                    <div class="postCreatorDetails clearfix">\
-                                        <img src="http://via.placeholder.com/350x150" class="img-circle" width="40px" height="40px">\
-                                        <h3>Name</h3>\
-                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s</p>\
-                                    </div>\
+                                    <input type="text" class="form-control commentwriteField" name="" style="margin-bottom: 10px;">\
                                     <div class="postCreatorDetails clearfix">\
                                         <img src="http://via.placeholder.com/350x150" class="img-circle" width="40px" height="40px">\
                                         <h3>Name</h3>\
@@ -122,9 +120,6 @@
             $('.poststatus').click(function(event){
                 event.preventDefault();
                  var post = $('.postWriteField').val();
-                 // var userData = localStorage.getItem("user");
-                 // var userData = JSON.parse(userData);
-                 // var access_token = userData.access_token;
                  var request = $.ajax({
                     "url": "http://localhost:3008/user/post",
                     "type": "post",
@@ -136,21 +131,17 @@
                 request.success(function(data){
                     var postListData = data.response;
                     console.log(postListData);
-                    $('.postListWrap').prepend('<div class="postList">\
+                    $('.postListWrap').prepend('<div class="postList" data-postID="'+postListData[0]["post_id"]+'">\
                             <div class="postCreatorDetails clearfix">\
                                 <img src="http://via.placeholder.com/350x150" class="img-circle" width="40px" height="40px">\
-                                <h3>'+postListData["name"]+'</h3>\
+                                <h3>'+postListData[0]["name"]+'</h3>\
                             </div>\
                             <div class="postListContentArea">\
-                                <h4>'+postListData["post_data"]+'</h4>\
-                                <div style="margin: 5px 0px;"><a href="#" style="margin-right: 5px;">like</a><a href="#">comment</a></div>\
-                                <div>\
-                                    <input type="text" class="form-control" name="" style="margin-bottom: 10px;">\
-                                    <div class="postCreatorDetails clearfix">\
-                                        <img src="http://via.placeholder.com/350x150" class="img-circle" width="40px" height="40px">\
-                                        <h3>Name</h3>\
-                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industrys standard dummy text ever since the 1500s</p>\
-                                    </div>\
+                                <h4>'+postListData[0]["post_data"]+'</h4>\
+                                <div style="margin: 5px 0px;"><button class="btn btn-info pull-left like" style="margin-top: 5px;">Like</button>\
+                                <button class="btn btn-info post_comment" style="margin-top: 5px;margin-left:5px;">Comments</button>\
+                                </div>\
+                                    <input type="text" class="form-control commentwriteField" name="" style="margin-bottom: 10px;">\
                                     <div class="postCreatorDetails clearfix">\
                                         <img src="http://via.placeholder.com/350x150" class="img-circle" width="40px" height="40px">\
                                         <h3>Name</h3>\
@@ -173,36 +164,12 @@
                 window.location.replace('index.html');
             })
             //  show posts
-            $('.viewBtn').click(function(e) {
-                console.log(access_token);
-                e.preventDefault();
-                $('.userListWrap').toggle();
-                var request = $.ajax({
-                    "url": "http://localhost:3008/user/viewUser",
-                    "type": "POST",
-                    "data": {
-                        "access_token" : access_token
-                    }
-                });
-                
-                request.success(function(data){
-                    console.log(data);
-                    $('.userList').empty();
-                    for (var i = 0; i < data.length; i++) {
-                        $('.userList').append('<tr>\
-                            <td class="text-center">'+data[i]["user_id"]+'</td>\
-                            <td class="text-center">'+data[i]["name"]+'</td>\
-                        </tr>');
-                    }
-                });
-                request.fail(function(error){
-                    console.log("error");
-                });
-            });
              var access_token = localStorage.getItem("access_token");
              console.log(access_token);
             $(document).on('click', '.like', function(event){
                 event.preventDefault();
+                $(this).parents('.postList').find('.unlike').css({"display": "block"});
+                $(this).hide();
                 var post_id = $(this).parents('.postList').attr("data-postID");
                 console.log(post_id);
                 var request = $.ajax({
@@ -212,7 +179,46 @@
                         "access_token" : access_token, 
                         "post_id" : post_id
                     }
-                })
+                });
+                request.success(function(data){
+                    localdata = data.response;
+                    total_like = localdata.length;
+                    console.log("total_like");
+                    
+                });
+                request.fail(function(error){
+                    var err = error.responseJSON.message;
+                    $('.errorContainerWrap').show();
+                    $('.errorContainerWrap').html(err);
+                });
+            });
+
+            $(document).on('click','.post_comment',function(event){
+                event.preventDefault();
+        
+                var post_id = $(this).parents('.postList').attr("data-postID");
+                console.log(post_id);
+                var comment_content= $(this).parents('.postListContentArea').find('.commentwriteField').val();
+                console.log(comment_content);
+                var request = $.ajax({
+                    "url" : "http://localhost:3008/user/post_comment",
+                    "type" : "post", 
+                    "data" : {
+                        "access_token" : access_token, 
+                        "post_id" : post_id,
+                        "comment_content" :comment_content
+                    }
+                });
+                 request.success(function(data){
+                    localdata = data.response;
+                    //total_like = localdata.length;
+                    console.log(localdata);
+                });
+                request.fail(function(error){
+                    var err = error.responseJSON.message;
+                    $('.errorContainerWrap').show();
+                    $('.errorContainerWrap').html(err);
+                });
             });
         });
     </script>

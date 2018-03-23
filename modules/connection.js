@@ -4,7 +4,7 @@ var connection = mysql.createConnection({
 	host     : 'localhost',
 	user     : 'root',
 	password : '',
-	database : 'employee'
+	database : 'facebook_social'
 });
  
 connection.connect(function(err){

@@ -22,6 +22,7 @@ app.use(bodyParser.urlencoded({
 	extended: true
 }));
 app.use(bodyParser.json());
+
 app.use(express.static(path.join(__dirname, 'view')));
 
 var user_panel = require('./routes/user');
@@ -29,11 +30,11 @@ var user_panel = require('./routes/user');
 app.post('/user/signup', user_panel.signup);
 app.post('/user/login', user_panel.login);
 app.post('/user/post', user_panel.post);
-
 app.post('/user/get_post_list', user_panel.get_post_list);
 app.post('/user/like', user_panel.like);
+app.post('/user/post_comment', user_panel.post_comment);
 
-app.post('/user/viewUser', user_panel.viewUser);
+
 app.listen(port, function(){
 	console.log("Server is running on port "+port);
 });

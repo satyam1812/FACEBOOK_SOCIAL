@@ -45,3 +45,10 @@ exports.invalidAccessToken = function(res) {
 	};
 	res.status(constants.responseFlags.INVALID_ACCESS_TOKEN).json(response);
 }
+exports.INVALID_CREDENTIAL = function(res){
+	var response = {
+		response : {},
+		massage :constants.responseMessages.INVALID_CREDENTIAL
+	};
+	res.status(constants.responseFlags.INVALID_CREDENTIAL).json(response);
+}

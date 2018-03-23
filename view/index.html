@@ -108,7 +108,7 @@
 				});
 
 				request.success(function(data){
-					var userData = data.response[0];
+					var userData = data.response;
 					console.log(userData);
 					localStorage.setItem('user', JSON.stringify(userData));
 					localStorage.setItem('access_token',  userData.access_token);
